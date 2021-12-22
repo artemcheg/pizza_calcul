@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Pizza extends StatefulWidget {
@@ -8,6 +9,7 @@ class Pizza extends StatefulWidget {
 }
 
 class _PizzaState extends State<Pizza> {
+  final _messengerKey = GlobalKey<ScaffoldMessengerState>();
   double _pizzaSize = 30;
   var backgroundColor = const Color(0xFF0079D0);
   bool _value1 = true;
@@ -42,6 +44,7 @@ class _PizzaState extends State<Pizza> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      scaffoldMessengerKey: _messengerKey,
       home: Scaffold(
         body: Container(
           padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -92,8 +95,10 @@ class _PizzaState extends State<Pizza> {
                             ? ElevatedButton(
                                 child: const Text(
                                   "Обычное тесто",
-                                  style: TextStyle(color: Colors.white,fontSize: 16,
-                                  fontWeight: FontWeight.w400),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400),
                                 ),
                                 style: ElevatedButton.styleFrom(
                                     padding: const EdgeInsets.all(15),
@@ -109,7 +114,9 @@ class _PizzaState extends State<Pizza> {
                             : ElevatedButton(
                                 child: const Text(
                                   "Обычное тесто",
-                                  style: TextStyle(color: Colors.grey,fontSize: 16,
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 16,
                                       fontWeight: FontWeight.w400),
                                 ),
                                 style: ElevatedButton.styleFrom(
@@ -134,7 +141,9 @@ class _PizzaState extends State<Pizza> {
                             ? ElevatedButton(
                                 child: const Text(
                                   "Тонкое тесто",
-                                  style: TextStyle(color: Colors.white,fontSize: 16,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
                                       fontWeight: FontWeight.w400),
                                 ),
                                 style: ElevatedButton.styleFrom(
@@ -151,7 +160,9 @@ class _PizzaState extends State<Pizza> {
                             : ElevatedButton(
                                 child: const Text(
                                   "Тонкое тесто",
-                                  style: TextStyle(color: Colors.grey,fontSize: 16,
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 16,
                                       fontWeight: FontWeight.w400),
                                 ),
                                 style: ElevatedButton.styleFrom(
@@ -182,16 +193,14 @@ class _PizzaState extends State<Pizza> {
                       child: Text(
                         "Размер:",
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w400),
+                            fontSize: 20, fontWeight: FontWeight.w600),
                       ),
                     ),
                     Slider(
                       value: _pizzaSize,
                       onChanged: (value) {
                         setState(() {
-                          _pizzaSize == 30
-                              ? sum = sum + 100
-                              : sum = sum - 100;
+                          _pizzaSize == 30 ? sum = sum + 100 : sum = sum - 100;
                           _pizzaSize = value;
                         });
                       },
@@ -289,6 +298,38 @@ class _PizzaState extends State<Pizza> {
                         "Сумма вашего заказа: $sum руб.",
                         style: const TextStyle(
                             fontSize: 18, fontWeight: FontWeight.w400),
+                      )),
+                ),
+                Container(
+                  margin: const EdgeInsets.all(20),
+                  width: 200,
+                  height: 50,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          _messengerKey.currentState!.showSnackBar(SnackBar(
+                            content: const Text("Ваша пицца в пути!"),
+                            action: SnackBarAction(
+                                label: "Скрыть", onPressed: () {}),
+                            margin: const EdgeInsets.all(10),
+                            behavior: SnackBarBehavior.floating,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                          ));
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.all(15),
+                          elevation: 0,
+                          primary: Colors.blueAccent,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20))),
+                      child: const Text(
+                        "Заказать",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16),
                       )),
                 )
               ],
